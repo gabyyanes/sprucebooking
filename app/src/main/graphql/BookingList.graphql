@@ -1,0 +1,14 @@
+query BookingList($filterBy: BookingFilterInput) {
+    bookings(filterBy: $filterBy, order: ASC) {
+        total
+        bookings {
+            id
+            email
+            type
+            status
+            name
+            address
+            serviceDate
+        }
+    }
+}

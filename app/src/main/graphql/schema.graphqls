@@ -1,0 +1,85 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Booking {
+    address: String!
+    email: String!
+    id: String!
+    name: String!
+    serviceDate: String!
+    status: BookingStatus!
+    type: BookingType!
+}
+
+type BookingResults {
+    bookings: [Booking!]!
+    total: Int!
+}
+
+type Mutation {
+    cancelBooking(bookingId: String!): Booking!
+    createBooking(input: CreateBookingInput!): Booking!
+    updateBooking(bookingId: String!, input: UpdateBookingInput!): Booking!
+}
+
+type Query {
+    bookings(filterBy: BookingFilterInput, offset: Int, order: SortOrder, sortBy: BookingSortBy, take: Int): BookingResults
+}
+
+enum BookingFilterField {
+    EMAIL
+    STATUS
+    TYPE
+}
+
+enum BookingSortBy {
+    address
+    email
+    name
+    serviceDate
+    type
+}
+
+enum BookingStatus {
+    Cancelled
+    Completed
+    InProgress
+    Pending
+}
+
+enum BookingType {
+    DogWalk
+    Housekeeping
+}
+
+enum SortOrder {
+    ASC
+    DESC
+}
+
+input BookingFilterInput {
+    email: String
+    status: BookingStatus
+    type: BookingType
+}
+
+input CreateBookingInput {
+    address: String!
+    email: String!
+    name: String!
+    serviceDate: String!
+    type: BookingType!
+}
+
+input UpdateBookingInput {
+    address: String
+    email: String
+    name: String
+    serviceDate: String
+    status: String
+    type: BookingType
+}

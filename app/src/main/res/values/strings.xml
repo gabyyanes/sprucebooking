@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Bookings</string>
+    <string name="loading">loading</string>
+    <string name="protocol_error">Oh no… A protocol error happened</string>
+    <string name="no_data">no data found</string>
+    <string name="name">Name:</string>
+    <string name="email">Email:</string>
+    <string name="address">Address:</string>
+    <string name="booking_type">BookingType:</string>
+    <string name="type">Type:</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="save">save</string>
+    <string name="delete">Cancel Booking</string>
+    <string name="create_error">booking not created</string>
+    <string name="update_error">booking not updated</string>
+    <string name="delete_error">booking not deleted</string>
+</resources>

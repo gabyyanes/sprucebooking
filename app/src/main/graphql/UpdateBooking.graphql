@@ -1,0 +1,11 @@
+mutation UpdateBooking($bookingId: String!, $input: UpdateBookingInput!) {
+    updateBooking(bookingId: $bookingId, input: $input) {
+        id
+        status
+        type
+        email
+        name
+        address
+        serviceDate
+    }
+}
