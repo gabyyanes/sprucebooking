@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/name"
         android:minHeight="48dp"
+        android:background= "@color/blue"
+        android:layout_marginBottom="15dp"
         tools:ignore="Autofill,TextFields" />
 
     <EditText
@@ -22,6 +24,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/email"
         android:minHeight="48dp"
+        android:background= "@color/blue"
+        android:layout_marginBottom="15dp"
         tools:ignore="Autofill,TextFields" />
 
     <EditText
@@ -30,6 +34,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/address"
         android:minHeight="48dp"
+        android:background= "@color/blue"
+        android:layout_marginBottom="15dp"
         tools:ignore="Autofill,TextFields" />
 
     <Spinner
@@ -37,6 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/booking_type"
+        android:background= "@color/blue"
+        android:layout_marginBottom="15dp"
         android:minHeight="48dp" />
 
   <TextView
@@ -53,6 +61,7 @@
         android:hint="Service Date:"
         android:minHeight="48dp"
         android:inputType="textMultiLine"
+        android:background= "@color/blue"
         tools:ignore="Autofill,TextFields" />
 
     <LinearLayout

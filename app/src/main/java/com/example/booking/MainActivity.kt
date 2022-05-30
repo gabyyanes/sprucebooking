@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), BookingAdapter.ClickListener, BookingA
         binding.rvData.adapter = adapter
 
         binding.btnAdd.setOnClickListener {
-            val add = Intent(this, AddBooking::class.java)
+            val add = Intent(this, CreateBooking::class.java)
             add.action = "add"
             activityResult.launch(add)
         }

@@ -19,7 +19,7 @@
             android:label="Booking Details"
             android:exported="false" />
         <activity
-            android:name=".AddBooking"
+            android:name=".CreateBooking"
             android:label="Create Booking"
             android:exported="false" />
         <activity

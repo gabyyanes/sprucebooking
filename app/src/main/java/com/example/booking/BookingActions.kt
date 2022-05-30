@@ -1,6 +1,5 @@
 package com.example.booking
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -36,8 +35,6 @@ class BookingActions : AppCompatActivity() {
     private lateinit var date: String
     private lateinit var time: String
     private lateinit var type: String
-
-    private lateinit var booking: BookingListQuery.Booking
 
     //spinner for booking type
     lateinit var option: Spinner
@@ -127,9 +124,9 @@ class BookingActions : AppCompatActivity() {
                 client.mutation(UpdateBookingMutation(
                     id,
                     input = UpdateBookingInput(
-                        type = Optional.presentIfNotNull(BookingType.safeValueOf(result.text.toString())), email = Optional.presentIfNotNull(email),
-                        name = Optional.presentIfNotNull(name), address = Optional.presentIfNotNull(address)
-                        ,serviceDate = Optional.presentIfNotNull(serviceDate))
+                        address = Optional.presentIfNotNull(address), email = Optional.presentIfNotNull(email),
+                        name = Optional.presentIfNotNull(name), serviceDate = Optional.presentIfNotNull(serviceDate),
+                        type = Optional.presentIfNotNull(BookingType.safeValueOf(result.text.toString())))
                 )
                 ).execute()
             }catch (e: ApolloException){
@@ -139,14 +136,6 @@ class BookingActions : AppCompatActivity() {
 
             Log.d("BookingActions", "Success ${result.data}")
 
-            val inputType = result.data?.updateBooking?.type
-            val inputEmail = result.data?.updateBooking?.email
-            val inputName = result.data?.updateBooking?.name
-            val inputAddress = result.data?.updateBooking?.address
-            val inputDate = result.data?.updateBooking?.serviceDate
-
-            val anyElementNull = listOf(inputType,inputEmail,inputName,inputAddress,inputDate)
-
             //handle errors if needed
             if (result.hasErrors()){
                 val message = result.errors?.get(0)?.message
@@ -154,7 +143,7 @@ class BookingActions : AppCompatActivity() {
                 return@launchWhenResumed
             }else {
                 if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(name) ||
-                    !TextUtils.isEmpty(address) || !TextUtils.isEmpty(date)){
+                    !TextUtils.isEmpty(address) || !TextUtils.isEmpty(serviceDate)){
                     setResult(RESULT_OK)
                     Toast.makeText(this@BookingActions, "success", Toast.LENGTH_LONG).show()
                     finish()
@@ -183,7 +172,7 @@ class BookingActions : AppCompatActivity() {
                 Toast.makeText(this@BookingActions, message, Toast.LENGTH_LONG).show()
                 return@launchWhenResumed
             }else {
-                if (inputId != null && inputId.isNotEmpty()){
+                if (inputId != null){
                     setResult(RESULT_OK)
                     Toast.makeText(this@BookingActions, "success", Toast.LENGTH_LONG).show()
                     finish()

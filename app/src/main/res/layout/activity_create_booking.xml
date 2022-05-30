@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".AddBooking">
+    tools:context=".CreateBooking">
 
     <EditText
         android:id="@+id/et_name"
@@ -14,6 +14,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/name"
         android:minHeight="48dp"
+        android:background="@color/blue"
+        android:layout_marginBottom="15dp"
+        android:padding="10dp"
         tools:ignore="Autofill,TextFields" />
 
     <EditText
@@ -22,6 +25,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/email"
         android:minHeight="48dp"
+        android:background="@color/blue"
+        android:layout_marginBottom="15dp"
+        android:padding="10dp"
         tools:ignore="Autofill,TextFields" />
 
     <EditText
@@ -30,6 +36,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/address"
         android:minHeight="48dp"
+        android:background="@color/blue"
+        android:layout_marginBottom="15dp"
+        android:padding="10dp"
         tools:ignore="Autofill,TextFields" />
 
     <Spinner
@@ -37,6 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/booking_type"
+        android:background="@color/blue"
+        android:layout_marginBottom="15dp"
         android:minHeight="48dp" />
 
     <TextView
@@ -47,32 +58,26 @@
         android:gravity="center"/>
 
     <EditText
+        android:id="@+id/et_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/date"
+        android:background= "@color/blue"
+        android:padding="10dp"
+        tools:ignore="Autofill,TextFields"
+        />
+
+    <EditText
         android:id="@+id/et_serviceDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/date"
         android:minHeight="48dp"
-        android:inputType="textMultiLine"
-        tools:ignore="Autofill,TextFields" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_timePicker"
-        android:text="Booking Date"
-        android:backgroundTint="@color/gray"
+        android:hint="@string/date"
+        android:background= "@color/blue"
+        android:padding="10dp"
         android:visibility="gone"
-        android:textAlignment="textStart"
-        />
-
-    <TextView
-        android:id="@+id/tv_bookingDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        tools:text="15-11-19"
+        tools:ignore="Autofill,TextFields"
         />
 
     <LinearLayout
@@ -82,13 +87,14 @@
         android:gravity="center|bottom"
         android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btn_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/teal_200"
-        android:text="@string/create"/>
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/teal_200"
+            android:enabled="false"
+            android:text="@string/create"/>
 
     </LinearLayout>
 

@@ -8,7 +8,7 @@
     <string name="address">Address:</string>
     <string name="booking_type">BookingType:</string>
     <string name="type">Type:</string>
-    <string name="date">Date:</string>
+    <string name="date">Booking Date:</string>
     <string name="time">Time:</string>
     <string name="save">save</string>
     <string name="create">create</string>
