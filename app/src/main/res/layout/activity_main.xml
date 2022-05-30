@@ -48,6 +48,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/teal_200"
         android:text="Create Booking"/>
 
 </RelativeLayout>

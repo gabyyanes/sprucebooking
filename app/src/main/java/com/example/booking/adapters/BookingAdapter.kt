@@ -12,7 +12,8 @@ import com.example.booking.R
 import com.example.booking.databinding.ItemDetailsBinding
 
 @SuppressLint("NotifyDataSetChanged")
-class BookingAdapter(listener: ClickListener) : RecyclerView.Adapter<BookingAdapter.BookingHolder>() {
+//Responsible for displaying the data from the model into a row in the recycler view
+class BookingAdapter(listener: ClickListener, onLongClickListener: OnLongClickListener) : RecyclerView.Adapter<BookingAdapter.BookingHolder>() {
 
     private lateinit var context: Context
     private var selectedItemPosition: Int
@@ -22,10 +23,13 @@ class BookingAdapter(listener: ClickListener) : RecyclerView.Adapter<BookingAdap
 
     private val listener: ClickListener
 
+    private val onLongClicklistener: OnLongClickListener
+
     init {
         selectedItemPosition = -1
         this.bookings = ArrayList()
         this.listener = listener
+        this.onLongClicklistener = onLongClickListener
     }
 
     //set the list of bookings
@@ -35,12 +39,17 @@ class BookingAdapter(listener: ClickListener) : RecyclerView.Adapter<BookingAdap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingHolder {
+        // Use layout inflator to inflate a view
         val binding = ItemDetailsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
         this.context = parent.context
+
+        //wrap it inside a ViewHolder and return it
         return BookingHolder(binding)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
+    //responsible for binding data to a particular view holder
     override fun onBindViewHolder(holder: BookingHolder, position: Int) {
         holder.bind(position)
         holder.itemView.setOnClickListener {
@@ -48,10 +57,21 @@ class BookingAdapter(listener: ClickListener) : RecyclerView.Adapter<BookingAdap
             notifyDataSetChanged()
             listener.onItemClickListener(position)
         }
+
+        holder.itemView.setOnLongClickListener() {
+            selectedItemPosition = holder.adapterPosition
+            notifyDataSetChanged()
+
+            //Notify the listener which position was long pressed.
+            onLongClicklistener.onLongItemClickListener(position)
+            true
+        }
     }
 
+    //Tells the RV how many items are in the list
     override fun getItemCount() = bookings.size
 
+    //Container to provide easy access to views that represent each row of the list
     inner class BookingHolder(private val binding: ItemDetailsBinding): RecyclerView.ViewHolder(binding.root){
         @RequiresApi(Build.VERSION_CODES.M)
         fun bind(position: Int) {
@@ -73,6 +93,11 @@ class BookingAdapter(listener: ClickListener) : RecyclerView.Adapter<BookingAdap
     //detect item click
     interface ClickListener {
         fun onItemClickListener(position: Int)
+    }
+
+    //detect long click
+    interface OnLongClickListener {
+        fun onLongItemClickListener(position: Int)
     }
 
 }

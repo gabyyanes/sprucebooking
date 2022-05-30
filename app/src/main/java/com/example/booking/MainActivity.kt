@@ -16,7 +16,7 @@ import com.example.booking.adapters.BookingAdapter
 import com.example.booking.databinding.ActivityMainBinding
 
 @SuppressLint("NotifyDataSetChanged")
-class MainActivity : AppCompatActivity(), BookingAdapter.ClickListener {
+class MainActivity : AppCompatActivity(), BookingAdapter.ClickListener, BookingAdapter.OnLongClickListener{
 
     private lateinit var binding: ActivityMainBinding
 
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), BookingAdapter.ClickListener {
 
         client = Apollo().get()
 
-        adapter = BookingAdapter(this)
+        adapter = BookingAdapter(this,this)
 
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
             this@MainActivity,
@@ -44,11 +44,10 @@ class MainActivity : AppCompatActivity(), BookingAdapter.ClickListener {
         binding.rvData.adapter = adapter
 
         binding.btnAdd.setOnClickListener {
-            val add = Intent(this, BookingActions::class.java)
+            val add = Intent(this, AddBooking::class.java)
             add.action = "add"
             activityResult.launch(add)
         }
-
 
         getBookingList()
 
@@ -94,7 +93,30 @@ class MainActivity : AppCompatActivity(), BookingAdapter.ClickListener {
         update.action = "update"
         update.putExtra("id", arrayList[position].id)
         update.putExtra("name",arrayList[position].name)
+        update.putExtra("address",arrayList[position].address)
+        update.putExtra("email",arrayList[position].email)
+        update.putExtra("serviceDate",arrayList[position].serviceDate)
+        update.putExtra("date",arrayList[position].serviceDate.substringBefore("T"))
+        update.putExtra("time",arrayList[position].serviceDate.substringAfter("T"))
+        update.putExtra("type",arrayList[position].type.toString())
         activityResult.launch(update)
+    }
+
+    //detect long item click from recycler view
+    override fun onLongItemClickListener(position: Int) {
+        val bundle = Bundle()
+        bundle.putString("id", arrayList[position].id)
+        bundle.putString("name",arrayList[position].name)
+        bundle.putString("address",arrayList[position].address)
+        bundle.putString("email",arrayList[position].email)
+        bundle.putString("date",arrayList[position].serviceDate.substringBefore("T"))
+        bundle.putString("time",arrayList[position].serviceDate.substringAfter("T"))
+        bundle.putString("type",arrayList[position].type.toString())
+
+        val intent = Intent(this, Details::class.java)
+
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     //refresh booking list

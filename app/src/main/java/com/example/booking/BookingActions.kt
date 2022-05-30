@@ -1,5 +1,6 @@
 package com.example.booking
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -17,7 +18,6 @@ import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.exception.ApolloException
 import com.example.booking.databinding.ActivityBookingActionsBinding
 import com.example.booking.type.BookingType
-import com.example.booking.type.CreateBookingInput
 import com.example.booking.type.UpdateBookingInput
 
 class BookingActions : AppCompatActivity() {
@@ -27,11 +27,19 @@ class BookingActions : AppCompatActivity() {
     private lateinit var client: ApolloClient
 
     private lateinit var activityAction: String
+
     private lateinit var id: String
     private lateinit var name: String
+    private lateinit var email: String
+    private lateinit var address: String
+    private lateinit var serviceDate: String
+    private lateinit var date: String
+    private lateinit var time: String
+    private lateinit var type: String
 
     private lateinit var booking: BookingListQuery.Booking
 
+    //spinner for booking type
     lateinit var option: Spinner
     lateinit var result: TextView
 
@@ -53,6 +61,7 @@ class BookingActions : AppCompatActivity() {
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 result.text = options[position]
+                option.setSelection(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -60,10 +69,9 @@ class BookingActions : AppCompatActivity() {
             }
         }
 
-        //insert or update the booking based on the action
+        //update the booking based on the action
         binding.btnSave.setOnClickListener{
             when(activityAction){
-                "add" -> createBooking()
                 "update" -> updateBooking()
             }
         }
@@ -81,79 +89,47 @@ class BookingActions : AppCompatActivity() {
             deleteDialog.show()
         }
 
-        //get intent data
+        //get intent data for the update screen
         val data = intent
         activityAction = data.action!!
         if (activityAction == "update"){
             id = data.getStringExtra("id")!!
             name = data.getStringExtra("name")!!
-            updateBooking()
+            email = data.getStringExtra("email")!!
+            address = data.getStringExtra("address")!!
+            type = data.getStringExtra("type")!!
+            serviceDate = data.getStringExtra("serviceDate")!!
+            date = data.getStringExtra("date")!!
+            time = data.getStringExtra("time")!!
+
+            binding.etName.setText(name)
+            binding.etEmail.setText(email)
+            binding.etAddress.setText(address)
+            binding.tvResult.setText(type)
+            binding.etServiceDate.setText(serviceDate)
+
             Log.d("UpdateBookingId", "Success ${id}")
             Log.d("UpdateBookingName", "Success ${name}")
+            Log.d("UpdateBookingType", "Success ${type}")
         }
     }
 
-        private fun createBooking(){
-            lifecycleScope.launchWhenResumed {
-                val email = binding.etEmail.text.toString()
-                val name = binding.etName.text.toString()
-                val address = binding.etAddress.text.toString()
-                val date = binding.etDate.text.toString()
-
-                val result = try {
-                   // val type = binding.etType
-                    client.mutation(CreateBookingMutation(
-                        input = CreateBookingInput(type = BookingType.safeValueOf(result.text.toString()), email = email, name = name, address = address
-                            , serviceDate = date)
-                    )
-                    ).execute()
-                }catch (e: ApolloException){
-                    Toast.makeText(this@BookingActions, R.string.protocol_error, Toast.LENGTH_LONG).show()
-                    return@launchWhenResumed
-                }
-
-                val inputType = result.data?.createBooking?.type
-                val inputEmail = result.data?.createBooking?.email
-                val inputName = result.data?.createBooking?.name
-                val inputAddress = result.data?.createBooking?.address
-                val inputDate = result.data?.createBooking?.serviceDate
-
-                val anyElementNull = listOf(inputType,inputEmail,inputName,inputAddress,inputDate)
-
-                //handle errors if needed
-                if (result.hasErrors()){
-                    val message = result.errors?.get(0)?.message
-                    Toast.makeText(this@BookingActions, message, Toast.LENGTH_LONG).show()
-                    return@launchWhenResumed
-                }else {
-                    if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(name) &&
-                                !TextUtils.isEmpty(address) && !TextUtils.isEmpty(date)){
-                        setResult(RESULT_OK)
-                        Toast.makeText(this@BookingActions, "success", Toast.LENGTH_LONG).show()
-                        finish()
-                    }else {
-                        Toast.makeText(this@BookingActions, R.string.create_error, Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
-        }
 
     private fun updateBooking(){
         lifecycleScope.launchWhenResumed {
-            //val type = binding.etType.BookingType
+
             val email = binding.etEmail.text.toString()
             val name = binding.etName.text.toString()
             val address = binding.etAddress.text.toString()
-            val date = binding.etDate.text.toString()
+            val serviceDate = binding.etServiceDate.text.toString()
 
             val result = try {
                 client.mutation(UpdateBookingMutation(
                     id,
                     input = UpdateBookingInput(
-                        type = Optional.presentIfNotNull(BookingType.Housekeeping), email = Optional.presentIfNotNull(email),
+                        type = Optional.presentIfNotNull(BookingType.safeValueOf(result.text.toString())), email = Optional.presentIfNotNull(email),
                         name = Optional.presentIfNotNull(name), address = Optional.presentIfNotNull(address)
-                        ,serviceDate = Optional.presentIfNotNull(date))
+                        ,serviceDate = Optional.presentIfNotNull(serviceDate))
                 )
                 ).execute()
             }catch (e: ApolloException){
@@ -177,8 +153,8 @@ class BookingActions : AppCompatActivity() {
                 Toast.makeText(this@BookingActions, message, Toast.LENGTH_LONG).show()
                 return@launchWhenResumed
             }else {
-                if (!TextUtils.isEmpty(email) || !TextUtils.isEmpty(name) ||
-                            !TextUtils.isEmpty(address) || !TextUtils.isEmpty(date)){
+                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(name) ||
+                    !TextUtils.isEmpty(address) || !TextUtils.isEmpty(date)){
                     setResult(RESULT_OK)
                     Toast.makeText(this@BookingActions, "success", Toast.LENGTH_LONG).show()
                     finish()
@@ -191,10 +167,6 @@ class BookingActions : AppCompatActivity() {
 
     private fun cancelBooking(){
         lifecycleScope.launchWhenResumed {
-            val email = binding.etEmail.text.toString()
-            val name = binding.etName.text.toString()
-            val address = binding.etAddress.text.toString()
-            val date = binding.etDate.text.toString()
 
             val result = try {
                 client.mutation(CancelBookingMutation(id)).execute()
@@ -203,13 +175,7 @@ class BookingActions : AppCompatActivity() {
                 return@launchWhenResumed
             }
 
-            val inputType = result.data?.cancelBooking?.type
-            val inputEmail = result.data?.cancelBooking?.email
-            val inputName = result.data?.cancelBooking?.name
-            val inputAddress = result.data?.cancelBooking?.address
-            val inputDate = result.data?.cancelBooking?.serviceDate
-
-            val anyElementNull = listOf(inputType,inputEmail,inputName,inputAddress,inputDate)
+            val inputId = result.data?.cancelBooking?.id
 
             //handle errors if needed
             if (result.hasErrors()){
@@ -217,8 +183,7 @@ class BookingActions : AppCompatActivity() {
                 Toast.makeText(this@BookingActions, message, Toast.LENGTH_LONG).show()
                 return@launchWhenResumed
             }else {
-                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(name) &&
-                            !TextUtils.isEmpty(address) && !TextUtils.isEmpty(date)){
+                if (inputId != null && inputId.isNotEmpty()){
                     setResult(RESULT_OK)
                     Toast.makeText(this@BookingActions, "success", Toast.LENGTH_LONG).show()
                     finish()
