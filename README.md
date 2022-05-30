@@ -33,4 +33,4 @@ Our internal operations team would like a basic mobile app that lets them perfor
 
 Here's a walkthrough of implemented user stories:
 
-<img src='walkthrough1.mov' title='Video Walkthrough' width='320' alt='Video Walkthrough' />
+<img src='Walkthrough1.mov' title='Video Walkthrough' width='320' alt='Video Walkthrough' />
