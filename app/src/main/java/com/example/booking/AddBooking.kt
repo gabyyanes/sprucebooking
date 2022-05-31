@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
@@ -50,6 +51,11 @@ class AddBooking : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Time
         setContentView(binding.root)
 
         client = Apollo().get()
+        
+        binding.etEmail.addTextChangedListener(createWatcher)
+        binding.etName.addTextChangedListener(createWatcher)
+        binding.etAddress.addTextChangedListener(createWatcher)
+        binding.etServiceDate.addTextChangedListener(createWatcher)
 
         option = binding.spOptions
         result = binding.tvResult
@@ -163,6 +169,26 @@ class AddBooking : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Time
                 }
             }
         }
+    }
+    
+     private val createWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            val inputEmail = binding.etEmail.text.toString().trim()
+            val inputName = binding.etName.text.toString().trim()
+            val inputAddress = binding.etAddress.text.toString().trim()
+            val inputDate = binding.etServiceDate.text.toString().trim()
+            binding.btnCreate.isEnabled = !inputEmail.isEmpty() && !inputName.isEmpty() &&
+                    !inputAddress.isEmpty() && !inputDate.isEmpty()
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
 
     }
+     
 }
