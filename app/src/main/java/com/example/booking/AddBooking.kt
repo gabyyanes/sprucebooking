@@ -177,10 +177,10 @@ class AddBooking : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Time
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            val inputEmail = binding.etEmail.text.toString().trim()
-            val inputName = binding.etName.text.toString().trim()
-            val inputAddress = binding.etAddress.text.toString().trim()
-            val inputDate = binding.etServiceDate.text.toString().trim()
+            val inputEmail = binding.etEmail.text.toString()
+            val inputName = binding.etName.text.toString()
+            val inputAddress = binding.etAddress.text.toString()
+            val inputDate = binding.etServiceDate.text.toString()
             binding.btnCreate.isEnabled = !inputEmail.isEmpty() && !inputName.isEmpty() &&
                     !inputAddress.isEmpty() && !inputDate.isEmpty()
         }
