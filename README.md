@@ -23,12 +23,6 @@ Our internal operations team would like a basic mobile app that lets them perfor
 ## 🧰 Booking API
 * GQL Schema is defined here: https://studio.apollographql.com/sandbox/explorer?endpoint=https%3A%2F%2Fqz1l95.sse.codesandbox.io%2F&explorerURLState=N4IgJg9gxgrgtgUwHYBcQC4QEcYIE4CeABABQAkAZgJYA2K%2BAQgekQxBANZVIDmAYrXp4AkkgAOMFAEoiwADpIiRAEbsuvAM4lqdRsyKVBemfMVKiKCCgCGNBeZVruPDbPsOiVMO4cI412h9zFAIxBCClDRsUGA0IoiRrRHjrMDA8BA04swcNfAA3KigEABFreiCAX3dqpEqQABoQfOs8KmtlGkyMEFMlORAdISYBlj7zAajy2NGiAdEABTwIHgysgZqFesqgA
 
-## 💯 Bonus points
-* Add pagination (fill screen with enough items to avoid scrolling)!
-* Add functionality to filter bookings by any field!
-* Input validation!
-* Add unit tests!
-
 ## Video Walkthrough
 
 <img src='Walkthrough.gif' title='Video Walkthrough' width='320' alt='Video Walkthrough' />
