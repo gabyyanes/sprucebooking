@@ -23,13 +23,13 @@ class BookingAdapter(listener: ClickListener, onLongClickListener: OnLongClickLi
 
     private val listener: ClickListener
 
-    private val onLongClicklistener: OnLongClickListener
+    private val onLongClickListener: OnLongClickListener
 
     init {
         selectedItemPosition = -1
         this.bookings = ArrayList()
         this.listener = listener
-        this.onLongClicklistener = onLongClickListener
+        this.onLongClickListener = onLongClickListener
     }
 
     //set the list of bookings
@@ -63,7 +63,7 @@ class BookingAdapter(listener: ClickListener, onLongClickListener: OnLongClickLi
             notifyDataSetChanged()
 
             //Notify the listener which position was long pressed.
-            onLongClicklistener.onLongItemClickListener(position)
+            onLongClickListener.onLongItemClickListener(position)
             true
         }
     }
