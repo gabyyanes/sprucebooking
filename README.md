@@ -31,4 +31,4 @@ Our internal operations team would like a basic mobile app that lets them perfor
 
 ## Video Walkthrough
 
-<img src='walkthrough1.gif' title='Video Walkthrough' width='320' alt='Video Walkthrough' />
+<img src='Walkthrough.gif' title='Video Walkthrough' width='320' alt='Video Walkthrough' />
